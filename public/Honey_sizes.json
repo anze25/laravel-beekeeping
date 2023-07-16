@@ -1,0 +1,7 @@
+[
+    { "product_size_en": "250g", "product_size_sl": "250g", "price": 9.99 },
+    { "product_size_en": "500g", "product_size_sl": "500g", "price": 15.99 },
+    { "product_size_en": "1kg", "product_size_sl": "1kg", "price": 29.99 },
+    { "product_size_en": "750g", "product_size_sl": "750g", "price": 23.99 },
+    { "product_size_en": "300g", "product_size_sl": "300g", "price": 11.99 }
+]

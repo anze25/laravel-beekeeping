@@ -1,0 +1,17 @@
+/* @import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities"; */
+
+.letest-post ul li img {
+  float: left;
+  margin-right: 10px;
+  width: 100px;
+  height: 76px;
+  margin-top: 5px;
+}
+
+.news-image img {
+  max-width: 156.69px;
+  max-height: 120px;
+}
+

@@ -1,0 +1,333 @@
+<?php
+
+namespace App\Http\Controllers\Backend;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\Category;
+use App\Models\SubCategory;
+
+use App\Models\Brand;
+
+use App\Models\Product;
+use App\Models\MultiImg;
+use Carbon\Carbon;
+use Image;
+
+class ProductController extends Controller
+{
+
+	public function AddProduct()
+	{
+		$categories = Category::latest()->get();
+		// $brands = Brand::latest()->get();
+		return view('backend.product.product_add', compact('categories'));
+	}
+
+
+	public function StoreProduct(Request $request)
+	{
+
+		$request->validate([
+			'file' => 'required|mimes:jpeg,png,jpg,zip,pdf|max:2048',
+		]);
+
+		if ($files = $request->file('file')) {
+			$destinationPath = 'upload/pdf'; // upload path
+			$digitalItem = date('YmdHis') . "." . $files->getClientOriginalExtension();
+			$files->move($destinationPath, $digitalItem);
+		}
+
+
+
+		$image = $request->file('product_thumbnail');
+		$name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
+		Image::make($image)->resize(917, 1000)->save('upload/products/thambnail/' . $name_gen);
+		$save_url = 'upload/products/thambnail/' . $name_gen;
+
+		$product_id = Product::insertGetId([
+			// 'brand_id' => $request->brand_id,
+			'category_id' => $request->category_id,
+			'subcategory_id' => $request->subcategory_id,
+			'product_name_en' => $request->product_name_en,
+			'product_name_slo' => $request->product_name_slo,
+			'product_slug_en' =>  strtolower(str_replace(' ', '-', $request->product_name_en)),
+			'product_slug_slo' => str_replace(' ', '-', $request->product_name_slo),
+			'product_code' => $request->product_code,
+
+			'product_qty' => $request->product_qty,
+			'product_tags_en' => $request->product_tags_en,
+			'product_tags_slo' => $request->product_tags_slo,
+			'product_size_en' => $request->product_size_en,
+			'product_size_slo' => $request->product_size_slo,
+			'product_color_en' => $request->product_color_en,
+			'product_color_slo' => $request->product_color_slo,
+
+			'selling_price' => $request->selling_price,
+			'discount_price' => $request->discount_price,
+			'short_desc_en' => $request->short_desc_en,
+			'short_desc_slo' => $request->short_desc_slo,
+			'long_desc_en' => $request->long_desc_en,
+			'long_desc_slo' => $request->long_desc_slo,
+
+			'hot_deals' => $request->hot_deals,
+			'featured' => $request->featured,
+			'special_offer' => $request->special_offer,
+			'special_deals' => $request->special_deals,
+
+			'product_thumbnail' => $save_url,
+
+			'digital_file' => $digitalItem,
+			'status' => 1,
+			'created_at' => Carbon::now(),
+
+		]);
+
+
+		////////// Multiple Image Upload Start ///////////
+
+		$images = $request->file('multi_img');
+		foreach ($images as $img) {
+			$make_name = hexdec(uniqid()) . '.' . $img->getClientOriginalExtension();
+			Image::make($img)->resize(917, 1000)->save('upload/products/multi-image/' . $make_name);
+			$uploadPath = 'upload/products/multi-image/' . $make_name;
+
+			MultiImg::insert([
+
+				'product_id' => $product_id,
+				'photo_name' => $uploadPath,
+				'created_at' => Carbon::now(),
+
+			]);
+		}
+
+		////////// Een Multiple Image Upload Start ///////////
+
+
+		$notification = array(
+			'message' => 'Product Inserted Successfully',
+			'alert-type' => 'success'
+		);
+
+		return redirect()->route('manage-product')->with($notification);
+	} // end method
+
+
+
+	public function ManageProduct()
+	{
+
+		$products = Product::latest()->get();
+		return view('backend.product.product_view', compact('products'));
+	}
+
+
+	public function EditProduct($id)
+	{
+
+		$multiImgs = MultiImg::where('product_id', $id)->get();
+
+		$categories = Category::latest()->get();
+		// $brands = Brand::latest()->get();
+		$subcategory = SubCategory::latest()->get();
+		$products = Product::findOrFail($id);
+		return view('backend.product.product_edit', compact('categories',  'subcategory', 'products', 'multiImgs'));
+	}
+
+
+	public function ProductDataUpdate(Request $request)
+	{
+
+		$product_id = $request->id;
+
+		Product::findOrFail($product_id)->update([
+			// 'brand_id' => $request->brand_id,
+			'category_id' => $request->category_id,
+			'subcategory_id' => $request->subcategory_id,
+			'product_name_en' => $request->product_name_en,
+			'product_name_slo' => $request->product_name_slo,
+			'product_slug_en' =>  strtolower(str_replace(' ', '-', $request->product_name_en)),
+			'product_slug_slo' => str_replace(' ', '-', $request->product_name_slo),
+			'product_code' => $request->product_code,
+
+			'product_qty' => $request->product_qty,
+			'product_tags_en' => $request->product_tags_en,
+			'product_tags_slo' => $request->product_tags_slo,
+			'product_size_en' => $request->product_size_en,
+			'product_size_slo' => $request->product_size_slo,
+			'product_color_en' => $request->product_color_en,
+			'product_color_slo' => $request->product_color_slo,
+
+			'selling_price' => $request->selling_price,
+			'discount_price' => $request->discount_price,
+			'short_desc_en' => $request->short_desc_en,
+			'short_desc_slo' => $request->short_desc_slo,
+			'long_desc_en' => $request->long_desc_en,
+			'long_desc_slo' => $request->long_desc_slo,
+
+			'hot_deals' => $request->hot_deals,
+			'featured' => $request->featured,
+			'special_offer' => $request->special_offer,
+			'special_deals' => $request->special_deals,
+			'status' => 1,
+			'created_at' => Carbon::now(),
+
+		]);
+
+		$notification = array(
+			'message' => 'Product Updated Without Image Successfully',
+			'alert-type' => 'success'
+		);
+
+		return redirect()->route('manage-product')->with($notification);
+	} // end method 
+
+
+	/// Multiple Image Update
+	public function MultiImageUpdate(Request $request)
+	{
+		$imgs = $request->multi_img;
+
+		foreach ($imgs as $id => $img) {
+			$imgDel = MultiImg::findOrFail($id);
+			unlink($imgDel->photo_name);
+
+			$make_name = hexdec(uniqid()) . '.' . $img->getClientOriginalExtension();
+			Image::make($img)->resize(917, 1000)->save('upload/products/multi-image/' . $make_name);
+			$uploadPath = 'upload/products/multi-image/' . $make_name;
+
+			MultiImg::where('id', $id)->update([
+				'photo_name' => $uploadPath,
+				'updated_at' => Carbon::now(),
+
+			]);
+		} // end foreach
+
+		$notification = array(
+			'message' => 'Product Image Updated Successfully',
+			'alert-type' => 'info'
+		);
+
+		return redirect()->back()->with($notification);
+	} // end mehtod 
+
+
+	/// Product Main Thambnail Update /// 
+	public function ThambnailImageUpdate(Request $request)
+	{
+		$pro_id = $request->id;
+		$oldImage = $request->old_img;
+		$old_image = 'frontend/images/products/' . $oldImage;
+		$old_thumb = 'frontend/images/products/thumbs/' . $oldImage;
+		if ($old_image) {
+			unlink($old_image);
+		}
+		if ($old_thumb) {
+			unlink($old_thumb);
+		}
+
+		$image = $request->file('product_thumbnail');
+		$name_gen = $image->getClientOriginalName();
+		$image = Image::make($image);
+		$image_path = public_path('frontend/images/products/');
+		$thumbs_path = public_path('frontend/images/products/thumbs/');
+
+		$image->resize('1000', '1000', function ($constraint) {
+			$constraint->aspectRatio();
+		})->resizeCanvas(1000, 1000, 'center', false, '#ffffff')->save($image_path .  $name_gen)
+			->resize(400, 400, function ($constraint) {
+				$constraint->aspectRatio();
+			})->resizeCanvas(400, 285, 'center', false, '#ffffff')
+			->save($thumbs_path . $name_gen)
+			->resize(285, 285, function ($constraint) {
+				$constraint->aspectRatio();
+			})->resizeCanvas(70, 70, 'center', false, '#ffffff')
+			->save($thumbs_path . '70px_' . $name_gen);
+
+		Product::findOrFail($pro_id)->update([
+			'product_thumbnail' => $name_gen,
+			'updated_at' => Carbon::now(),
+
+		]);
+
+		$notification = array(
+			'message' => 'Product Image Thambnail Updated Successfully',
+			'alert-type' => 'info'
+		);
+
+		return redirect()->back()->with($notification);
+	} // end method
+
+
+	//// Multi Image Delete ////
+	public function MultiImageDelete($id)
+	{
+		$oldimg = MultiImg::findOrFail($id);
+		unlink($oldimg->photo_name);
+		MultiImg::findOrFail($id)->delete();
+
+		$notification = array(
+			'message' => 'Product Image Deleted Successfully',
+			'alert-type' => 'success'
+		);
+
+		return redirect()->back()->with($notification);
+	} // end method 
+
+
+
+	public function ProductInactive($id)
+	{
+		Product::findOrFail($id)->update(['status' => 0]);
+		$notification = array(
+			'message' => 'Product Inactive',
+			'alert-type' => 'success'
+		);
+
+		return redirect()->back()->with($notification);
+	}
+
+
+	public function ProductActive($id)
+	{
+		Product::findOrFail($id)->update(['status' => 1]);
+		$notification = array(
+			'message' => 'Product Active',
+			'alert-type' => 'success'
+		);
+
+		return redirect()->back()->with($notification);
+	}
+
+
+
+	public function ProductDelete($id)
+	{
+		$product = Product::findOrFail($id);
+		unlink($product->product_thumbnail);
+		Product::findOrFail($id)->delete();
+
+		$images = MultiImg::where('product_id', $id)->get();
+		foreach ($images as $img) {
+			unlink($img->photo_name);
+			MultiImg::where('product_id', $id)->delete();
+		}
+
+		$notification = array(
+			'message' => 'Product Deleted Successfully',
+			'alert-type' => 'success'
+		);
+
+		return redirect()->back()->with($notification);
+	} // end method 
+
+
+
+	// product Stock 
+	public function ProductStock()
+	{
+
+		$products = Product::latest()->get();
+		return view('backend.product.product_stock', compact('products'));
+	}
+}

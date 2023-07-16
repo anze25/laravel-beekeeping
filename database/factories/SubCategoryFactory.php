@@ -1,0 +1,132 @@
+<?php
+
+namespace Database\Factories;
+
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class SubCategoryFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        $subcategory_name_en = $this->faker->unique()->randomElement($array = array(
+            'Laptops',
+            'Desktops',
+            'Tablet',
+            'Computers',
+            'Servers',
+            'Computer equipment',
+            'Monitors',
+            'Printers and 3D printers',
+            '3D pen',
+            'Keyboards',
+            'Mice',
+            'Headphones',
+            'Webcams',
+            'Network equipment',
+            'E-readers',
+            'Graphics and accessories',
+            'Bags and covers',
+            'Scanners',
+            'Software',
+            'Multimedia players',
+            'Microphones',
+            'Speakers',
+            'Computer components',
+            'Baseboards',
+            'Processors',
+            'RAM',
+            'Graphics Cards',
+            'Embedded discs',
+            'External drives',
+            'USB keys',
+            'Optical drives',
+            'Power supplies',
+            'Cooling',
+            'Computer cases',
+            'Saving data',
+            'TV cards',
+            'Computer accessories',
+            'Computer accessories',
+            'Computer desks',
+            'USB hubs',
+            'Card Readers',
+            'Consumables',
+            'Cleaners',
+            'Pocket calculators',
+            'Surge protectors',
+            'Tablet Accessories',
+            'Hard Drive Enclosures',
+            'Cables and accessories',
+            'Docking stations',
+            'E-wallets',
+            'Computer chairs',
+            'Mouse pads',
+        ));
+        $subcategory_name_slo = $this->faker->unique()->randomElement($array = array(
+            'Prenosni računalniki',
+            'Namizni računalniki',
+            'Tablični računalniki',
+            'Računalniki',
+            'Strežniki',
+            'Računalniška oprema',
+            'Monitorji',
+            'Tiskalniki in 3D tiskalniki',
+            '3D pisalo',
+            'Tipkovnice',
+            'Miške',
+            'Slušalke',
+            'Spletne kamere',
+            'Omrežna oprema',
+            'E-bralniki',
+            'Grafične tablice in dodatki',
+            'Torbice in ovitki',
+            'Optični čitalci',
+            'Programska oprema',
+            'Multimedijski predvajalniki',
+            'Mikrofoni',
+            'Zvočniki',
+            'Računalniške komponente',
+            'Osnovne plošče',
+            'Procesorji',
+            'RAM pomnilnik',
+            'Grafične kartice',
+            'Vgradni diski',
+            'Zunanji diski',
+            'USB ključi',
+            'Optični pogoni',
+            'Napajalniki',
+            'Hlajenje',
+            'Računalniška ohišja',
+            'Shranjevanje podatkov',
+            'TV kartice',
+            'Računalniški pribor',
+            'Računalniške mize',
+            'USB razdelilci',
+            'Čitalci kartic',
+            'Potrošni material',
+            'Čistila',
+            'Žepni kalkulatorji',
+            'Prenapetostne zaščite',
+            'Dodatki za tablične računalnike',
+            'Ohišja za trde diske',
+            'Kabli in pribor',
+            'Priklopne postaje',
+            'E-denarnice',
+            'Računalniški stoli',
+            'Podloge za miške',
+        ));
+        return [
+            'category_id' => $this->faker->numberBetween($min = 1, $max = 5),
+
+            'subcategory_name_en' => $subcategory_name_en,
+            'subcategory_name_slo' => $subcategory_name_slo,
+            'subcategory_slug_en' => strtolower(str_replace(' ', '-', $subcategory_name_en)),
+            'subcategory_slug_slo' => strtolower(str_replace(' ', '-', $subcategory_name_slo))
+        ];
+    }
+}
