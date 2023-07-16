@@ -83,7 +83,7 @@
                         @endif
                     </a></li>
             @endauth
-            <li><a href="/admin/login">Admin</a></li>
+            {{-- <li><a href="/admin/login">Admin</a></li> --}}
         </ul>
     </div>
 
