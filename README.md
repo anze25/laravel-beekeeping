@@ -46,6 +46,6 @@ Make sure you have environment setup properly. You will need MySQL, PHP8.1, Node
 5. Run `npm run dev`
 6. Open Vue.js Admin Panel in browser and login with
     ```
-    admin@example.com
-    admin123
+    admin@gmail.com
+    password
     ```
