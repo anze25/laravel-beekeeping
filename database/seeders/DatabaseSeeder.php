@@ -22,9 +22,8 @@ class DatabaseSeeder extends Seeder
             SliderSeeder::class,
             HoneyProductSeeder::class,
             SliderSeeder::class,
-            NewsSeeder::class,
             BlogPostSeeder::class,
-
+            UserSeeder::class,
 
         ]);
     }
