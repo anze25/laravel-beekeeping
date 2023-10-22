@@ -22,10 +22,12 @@ class WishlistController extends Controller
 	{
 
 		$wishlist = Wishlist::with('product')->where('user_id', Auth::id())->latest()->get();
+		$language = session()->get('language');
 
-		
-
-		return response()->json($wishlist);
+		return response()->json(array(
+			'wishlist' => $wishlist,
+			'language' => $language,
+		));
 	} // end mehtod 
 
 

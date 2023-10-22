@@ -15,7 +15,15 @@
         <div class="row flex-lg-row-reverse">
             <div class="col-12 col-lg-9">
                 <div class="my-account-page-title">
-                    <h3>Seznam želja</h3>
+                    <h3>
+
+                        @if (session()->get('language') == 'slovenian')
+                            Seznam želja
+                        @else
+                            My Wishlist
+                        @endif
+
+                    </h3>
                 </div>
 
                 <div id="wishlist">

@@ -7,7 +7,7 @@
         Shop Page
     @endif
 @endsection
-
+<div></div>
 <div class="bee-content-block">
     <div class="container">
         <div class="row breadcrumb-style2">

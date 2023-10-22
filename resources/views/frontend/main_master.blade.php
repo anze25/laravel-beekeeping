@@ -702,10 +702,15 @@
                 dataType: 'json',
                 success: function(response) {
                     rows = '';
-                    if (response == '') {
-                        rows = 'Your wishlist doesnt have any products.'
+                    if (response.wishlist == '') {
+                        if (response.language === 'slovenian') {
+                            rows = 'Na vaše seznamu želja trenutno nimate nobenega artikla.'
+                        } else {
+                            rows = 'Your wishlist doesnt have any products.'
+                        }
+
                     } else {
-                        $.each(response, function(key, value) {
+                        $.each(response.wishlist, function(key, value) {
                             rows += `<div class="order-section">
                     <div class="order-details">
                         <div class="order-product">
