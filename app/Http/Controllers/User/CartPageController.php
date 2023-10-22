@@ -14,8 +14,9 @@ class CartPageController extends Controller
     public function MyCart()
     {
         $cartTotal = Cart::total();
+        $cartQty = Cart::count();
 
-        return view('frontend.wishlist.view_mycart', compact('cartTotal'));
+        return view('frontend.wishlist.view_mycart', compact('cartTotal', 'cartQty'));
     }
 
 
@@ -24,11 +25,13 @@ class CartPageController extends Controller
         $carts = Cart::content();
         $cartQty = Cart::count();
         $cartTotal = Cart::total();
+        $language = session()->get('language');
 
         return response()->json(array(
             'carts' => $carts,
             'cartQty' => $cartQty,
             'cartTotal' => round($cartTotal),
+            'language' => $language,
 
         ));
     } //end method 

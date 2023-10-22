@@ -56,6 +56,7 @@
 </head>
 
 <body>
+
     <!-- Main Wrapper Start -->
     <div class="main-wrapper">
 
@@ -412,6 +413,7 @@
     {{-- MY CART PAGE --}}
     <script type="text/javascript">
         function cart() {
+
             $.ajax({
                 type: 'GET',
                 url: '/user/get-cart-product',
@@ -420,8 +422,17 @@
 
                     var rows = ""
                     var totals = ""
+
                     if (response.cartQty === 0) {
-                        rows = 'You have no items in your cart'
+
+                        // rows = `<div>${language}</div>`
+                        // rows = `There are no items in your cart.`
+                        if (response.language === 'slovenian') {
+                            rows = 'V vaši košarici ni nobenega artikla.'
+                        } else {
+                            rows = 'There are no items in your cart.'
+                        }
+
                         totals = ''
                     } else {
                         $('span[id="cartSubTotal"]').text(response.cartTotal);
@@ -915,7 +926,7 @@
         }
     </script>
 
-    <script>
+    {{-- <script>
         document.getElementById('pageSize').onchange = function() {
             window.location = "{!! $products->url(0) !!}&pageSize=" + this.value;
         };
@@ -925,7 +936,7 @@
         document.getElementById('query').onchange = function() {
             window.location = "{!! $products->url(0) !!}&query=" + this.value;
         };
-    </script>
+    </script> --}}
     <style>
         .category-top .sort-by select {
             width: 100%;

@@ -255,15 +255,5 @@
 
     });
 </script>
-<script>
-    document.getElementById('pageSize').onchange = function() {
-        window.location = "{!! $products->url(0) !!}&pageSize=" + this.value;
-    };
-    document.getElementById('sortBy').onchange = function() {
-        window.location = "{!! $products->url(0) !!}&sortBy=" + this.value;
-    };
-    document.getElementById('query').onchange = function() {
-        window.location = "{!! $products->url(0) !!}&query=" + this.value;
-    };
-</script>
+
 @endsection
