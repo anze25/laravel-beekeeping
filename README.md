@@ -6,10 +6,13 @@ Beekeeping E-commerce application built with Laravel and Vue.js<br>
 
 Admin Panel: https://beekeeping.as-storitve.si/admin/login
 
+![Screenshot](https://github.com/anze25/laravel-beekeeping/blob/main/public/admin_screenshot.png)
 ```
 Email: admin@gmail.com
 Password: password
 ```
+
+
 
 Website: https://beekeeping.as-storitve.si
 
