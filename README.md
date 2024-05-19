@@ -1,4 +1,4 @@
-# Laravel E-commerce Website
+# Beekeeping E-commerce Website with admin
 
 Beekeeping E-commerce application built with Laravel and Vue.js<br>
 
