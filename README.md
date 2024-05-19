@@ -13,7 +13,7 @@ Password: password
 
 Website: https://beekeeping.as-storitve.si
 
-![Uploading Screenshot.jpg…]()
+![Screenshot](https://github.com/anze25/laravel-beekeeping/blob/main/public/Screenshot.jpg)
 
 ```
 Email: user@gmail.com
