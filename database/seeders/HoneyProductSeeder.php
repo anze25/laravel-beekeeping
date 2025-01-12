@@ -128,8 +128,8 @@ class HoneyProductSeeder extends Seeder
                             'Clover honey'
                         ]),
                         'product_tags_slo' => array_rand(["med",   "naravni sladilo",   "zdravilni med",   "cvetlični med",   "gozdni med"]),
-                        'product_size_en' => $size_obj['product_size_en'],
-                        'product_size_slo' => $size_obj['product_size_sl'],
+                        'product_size_en' => 'big, small, large, medium, extra large',
+                        'product_size_slo' => 'velik, majhen, velik, srednji, zelo velik',
 
                         'selling_price' => $size_obj['price'],
                         'discount_price' => round(($size_obj['price'] * 0.9), 2),

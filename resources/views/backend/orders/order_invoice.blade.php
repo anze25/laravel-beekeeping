@@ -85,9 +85,12 @@
                     <strong>Phone:</strong> {{ $order->phone }} <br>
 
                     @php
-                        $div = $order->division->division_name;
-                        $dis = $order->district->district_name;
-                        $state = $order->state->state_name;
+                        // $div = $order->division->division_name;
+                        // $dis = $order->district->district_name;
+                        // $state = $order->state->state_name;
+                        $div = $order->division ? $order->division->division_name : 'empty';
+                        $dis = $order->district ? $order->district->district_name : 'empty';
+                        $state = $order->state ? $order->state->state_name : 'empty';
                     @endphp
 
                     <strong>Address:</strong> {{ $div }},{{ $dis }}.{{ $state }} <br>

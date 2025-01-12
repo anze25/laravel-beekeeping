@@ -26,41 +26,86 @@ class CartController extends Controller
         }
 
         $product = Product::findOrFail($id);
+        $language = session()->get('language');
 
-        if ($product->discount_price == NULL) {
-            Cart::add([
-                'id' => $id,
-                'name' => $request->product_name,
-                'qty' => $request->quantity,
-                'price' => $product->selling_price,
-                'weight' => 1,
-                'options' => [
-                    'image' => $product->product_thumbnail,
-                    'color' => $request->color,
-                    'size' => $request->size,
-                    'description' => $product->short_desc_en,
-                    'created_at' => Carbon::now()->format('d.M Y'),
-                ],
-            ]);
+        $colors_en = explode(', ', $product->product_color_en);
+        $colors_slo = explode(', ', $product->product_color_slo);
 
-            return response()->json(['success' => 'Successfully Added on Your Cart']);
+        $sizes_en = explode(', ', $product->product_size_en);
+        $sizes_slo = explode(', ', $product->product_size_slo);
+
+
+        if ($request->quantity <= $product->product_qty) {
+            if ($product->discount_price == NULL) {
+                if (Auth::check()) {
+
+                    $exists = Wishlist::where('user_id', Auth::id())->where('product_id', $id)->first();
+                    if ($exists) {
+                        $exists->delete();
+                    }
+                }
+
+                Cart::add([
+                    'id' => $id,
+                    'name' => $request->product_name,
+                    'qty' => $request->quantity,
+                    'price' => $product->selling_price,
+                    'weight' => 1,
+                    'options' => [
+                        'name_slo' => $product->product_name_slo,
+                        'name_en' => $product->product_name_en,
+                        'image' => $product->product_thumbnail,
+                        'color_en' => $colors_en[intval($request->color)],
+                        'color_slo' => $colors_slo[intval($request->color)],
+                        'size' => $request->size,
+                        'description_slo' => $product->short_desc_slo,
+                        'description_en' => $product->short_desc_en,
+                        'created_at' => Carbon::now()->format('d.M Y'),
+                    ],
+                ]);
+
+
+                if ($language === 'slovenian') {
+                    return response()->json(['success' => 'Uspešno dodano v košarico.']);
+                } else {
+                    return response()->json(['success' => 'Successfully Added on Your Cart.']);
+                }
+            } else {
+                if (Auth::check()) {
+
+                    $exists = Wishlist::where('user_id', Auth::id())->where('product_id', $id)->first();
+                    if ($exists) {
+                        $exists->delete();
+                    }
+                }
+
+                Cart::add([
+                    'id' => $id,
+                    'name' => $product->product_name_slo,
+                    'qty' => $request->quantity,
+                    'price' => $product->discount_price,
+                    'weight' => 1,
+                    'options' => [
+                        'name_slo' => $product->product_name_slo,
+                        'name_en' => $product->product_name_en,
+                        'image' => $product->product_thumbnail,
+                        'color_en' => $colors_en[intval($request->color)],
+                        'color_slo' => $colors_slo[intval($request->color)],
+                        'size_en' => $sizes_en[intval($request->size)],
+                        'size_slo' => $sizes_slo[intval($request->size)],
+                        'description_slo' => $product->short_desc_slo,
+                        'description_en' => $product->short_desc_en,
+                        'created_at' => Carbon::now()->format('d.M Y'),
+                    ],
+                ]);
+                if ($language === 'slovenian') {
+                    return response()->json(['success' => 'Uspešno dodano v košarico.']);
+                } else {
+                    return response()->json(['success' => 'Successfully Added on Your Cart.']);
+                }
+            }
         } else {
-
-            Cart::add([
-                'id' => $id,
-                'name' => $request->product_name,
-                'qty' => $request->quantity,
-                'price' => $product->discount_price,
-                'weight' => 1,
-                'options' => [
-                    'image' => $product->product_thumbnail,
-                    'color' => $request->color,
-                    'size' => $request->size,
-                    'description' => $product->short_desc_en,
-                    'created_at' => Carbon::now()->format('d.M Y'),
-                ],
-            ]);
-            return response()->json(['success' => 'Successfully Added on Your Cart']);
+            return response()->json(['error' => 'Not enough on stock.']);
         }
     } // end mehtod 
 
@@ -68,6 +113,7 @@ class CartController extends Controller
     // Mini Cart Section
     public function AddMiniCart()
     {
+        $language = session()->get('language');
 
         $carts = Cart::content();
         $cartQty = Cart::count();
@@ -77,6 +123,7 @@ class CartController extends Controller
             'carts' => $carts,
             'cartQty' => $cartQty,
             'cartTotal' => round($cartTotal),
+            'language' => $language
 
         ));
     } // end method 
@@ -85,15 +132,25 @@ class CartController extends Controller
     /// remove mini cart 
     public function RemoveMiniCart($rowId)
     {
+        $language = session()->get('language');
+
         Cart::remove($rowId);
-        return response()->json(['success' => 'Product Remove from Cart']);
+
+        if ($language === 'slovenian') {
+            return response()->json(['success' => 'Uspešno odstranjeno iz košarice.']);
+        } else {
+            return response()->json(['success' => 'Product Remove from Cart.']);
+        }
     } // end mehtod 
+
 
 
     // add to wishlist mehtod 
 
     public function AddToWishlist(Request $request, $product_id)
     {
+        $language = session()->get('language');
+
 
         if (Auth::check()) {
 
@@ -107,14 +164,30 @@ class CartController extends Controller
                     'created_at' => Carbon::now(),
 
                 ]);
-                return response()->json(['success' => 'Successfully Added On Your Wishlist']);
+
+                if ($language === 'slovenian') {
+                    return response()->json(['success' => 'Uspešno dodano na seznam želja.']);
+                } else {
+                    return response()->json(['success' => 'Successfully Added On Your Wishlist.']);
+                }
             } else {
 
-                return response()->json(['error' => 'This Product has Already on Your Wishlist']);
+
+                if ($language === 'slovenian') {
+                    return response()->json(['error' => 'Ta artikel je že na vašem seznamu.']);
+                } else {
+                    return response()->json(['error' => 'This Product has Already on Your Wishlist.']);
+                }
             }
         } else {
 
-            return response()->json(['error' => 'At First Login Your Account']);
+            if ($language === 'slovenian') {
+                return response()->json(['error' => 'Najprej se vpišite v vaš račun.']);
+                return response()->json(['error' => 'test.']);
+            } else {
+                return response()->json(['error' => 'At First Login Your Account.']);
+                return response()->json(['error' => 'test.']);
+            }
         }
     } // end method 
 
@@ -123,7 +196,7 @@ class CartController extends Controller
 
     public function CouponApply(Request $request)
     {
-
+        $language = session()->get('language');
         $coupon = Coupon::where('coupon_name', $request->coupon_name)->where('coupon_validity', '>=', Carbon::now()->format('Y-m-d'))->first();
         if ($coupon) {
 
@@ -138,8 +211,24 @@ class CartController extends Controller
                 'validity' => true,
                 'success' => 'Coupon Applied Successfully'
             ));
+            if ($language === 'slovenian') {
+                return response()->json(array(
+                    'validity' => true,
+                    'success' => 'Kupon je potrjen!'
+                ));
+            } else {
+                return response()->json(array(
+                    'validity' => true,
+                    'success' => 'Coupon Applied Successfully!'
+                ));
+            }
         } else {
-            return response()->json(['error' => 'Invalid Coupon']);
+
+            if ($language === 'slovenian') {
+                return response()->json(['error' => 'Kupon je neveljaven!']);
+            } else {
+                return response()->json(['error' => 'Invalid Coupon!']);
+            }
         }
     } // end method 
 
@@ -166,8 +255,14 @@ class CartController extends Controller
     // Remove Coupon 
     public function CouponRemove()
     {
+        $language = session()->get('language');
         Session::forget('coupon');
-        return response()->json(['success' => 'Coupon Remove Successfully']);
+
+        if ($language === 'slovenian') {
+            return response()->json(['success' => 'Kupon je uspešno odstranjen.']);
+        } else {
+            return response()->json(['success' => 'Coupon Remove Successfully.']);
+        }
     }
 
 

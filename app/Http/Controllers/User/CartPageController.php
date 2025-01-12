@@ -45,8 +45,13 @@ class CartPageController extends Controller
         if (Session::has('coupon')) {
             Session::forget('coupon');
         }
+        $language = session()->get('language');
 
-        return response()->json(['success' => 'Successfully Remove From Cart']);
+        if ($language === 'slovenian') {
+            return response()->json(['success' => 'Product je bil uspešno odstranjen iz košarice.']);
+        } else {
+            return response()->json(['success' => 'Successfully Remove From Cart']);
+        }
     }
 
 

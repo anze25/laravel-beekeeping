@@ -204,17 +204,24 @@ class IndexController extends Controller
 	public function ProductViewAjax($id)
 	{
 		$product = Product::with('category', 'brand')->findOrFail($id);
-
+		$language = session()->get('language');
 		$color = $product->product_color_en;
 		$product_color = explode(',', $color);
-
+		$color_slo = $product->product_color_slo;
+		$product_color_slo = explode(',', $color_slo);;
 		$size = $product->product_size_en;
 		$product_size = explode(',', $size);
+		$size_slo = $product->product_size_slo;
+		$product_size_slo = explode(',', $size_slo);
 
 		return response()->json(array(
 			'product' => $product,
 			'color' => $product_color,
+			'color_slo' => $product_color_slo,
 			'size' => $product_size,
+			'size_slo' => $product_size_slo,
+
+			'language' => $language,
 
 		));
 	} // end method 

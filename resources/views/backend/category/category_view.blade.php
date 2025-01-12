@@ -27,7 +27,7 @@
                                         <tr>
                                             <th>Category Icon </th>
                                             <th>Category En</th>
-                                            <th>Category Hin </th>
+                                            <th>Category Slo </th>
                                             <th>Action</th>
 
                                         </tr>
@@ -92,7 +92,7 @@
 
 
                                     <div class="form-group">
-                                        <h5>Category Hindi <span class="text-danger">*</span></h5>
+                                        <h5>Category Slovenian <span class="text-danger">*</span></h5>
                                         <div class="controls">
                                             <input type="text" name="category_name_slo" class="form-control">
                                             @error('category_name_slo')

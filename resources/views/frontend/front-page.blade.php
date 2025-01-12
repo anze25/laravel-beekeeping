@@ -3,7 +3,7 @@
 @php
     $seo = App\Models\Seo::find(1);
     $setting = App\Models\SiteSetting::find(1);
-    
+
 @endphp
 
 <head>
@@ -386,7 +386,8 @@
                                                     title="" class="icon-view"><i class="fa fa-eye"></i></a><a
                                                     href="" title="" class="icon-view"><i
                                                         class="fa fa-heart-o" id="{{ $item->id }}"
-                                                        title="Wishlist" onclick="addToWishList(this.id)"></i></a>
+                                                        title="Wishlist"
+                                                        onclick="addToWishList(this.id, event)"></i></a>
                                                 <a href="" title="" class="icon-view"
                                                     data-toggle="modal" data-target="#exampleModal"
                                                     id="{{ $item->id }}" onclick="productView(this.id)"><i
@@ -1083,7 +1084,8 @@
                 dataType: 'json',
                 success: function(data) {
                     // console.log(data)
-                    $('#pname').text(data.product.product_name_en);
+                    $('#pname_en').text(data.product.product_name_en);
+                    $('#pname_slo').text(data.product.product_name_slo);
                     $('#price').text(data.product.selling_price);
                     $('#pcode').text(data.product.product_code);
                     $('#pcategory').text(data.product.category.category_name_en);
@@ -1203,6 +1205,7 @@
     {{-- MY CART PAGE --}}
     <script type="text/javascript">
         function cart() {
+
             $.ajax({
                 type: 'GET',
                 url: '/user/get-cart-product',
@@ -1211,22 +1214,78 @@
 
                     var rows = ""
                     var totals = ""
+
                     if (response.cartQty === 0) {
-                        rows = 'You have no items in your cart'
+
+                        // rows = `<div>${language}</div>`
+                        // rows = `There are no items in your cart.`
+                        if (response.language === 'slovenian') {
+                            rows = 'V vaši košarici ni nobenega artikla.'
+                        } else {
+                            rows = 'There are no items in your cart.'
+                        }
+
                         totals = ''
                     } else {
-                        $('span[id="cartSubTotal"]').text(response.cartTotal);
-                        $('span[id="cartQty"').text(response.cartQty);
-                        $('#cartTotals').html(`<div class="cart-total-section"><h3> </h3>
-                    <div class="cart-total-block">
-                        <ul>
-                            <li><span>Subtotal:</span><span id="cartSubTotal">${response.cartTotal} €</span></li>
+                        if (response.language === 'slovenian') {
+                            $('span[id="cartSubTotal"]').text(response.cartTotal);
+                            $('span[id="cartQty"').text(response.cartQty);
+                            $('#cartTotals').html(
+                                `<div class="cart-total-section"><h3> </h3>
+                    
+                    <a href="{{ route('checkout') }}" type="submit" class="btn btn-submit">Na blagajno</a></div>`
+                            );
+                            $.each(response.carts, function(key, value) {
+                                rows += `
+                        <div class="order-section">
+                            <div class="order-top justify-content-end">
+                                <div class="order-id mr-auto"> Dodano v košarico: <b>${new Date(value.options.created_at).toLocaleDateString("sl-SI", {year: 'numeric', month: 'long', day: 'numeric'})} </b> </div>
+                                <div class="delete-order"> 
+                                    <a href="" type="submit" id="${value.rowId}" onclick="cartRemove(this.id)">
+                                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                    </a> 
+                                </div>
+                            </div>
+                            <div class="order-details">
+                                <div class="order-product">
+                                    <div class="order-product-img"><img src="/frontend/images/products/thumbs/${value.options.image}" alt=""/></div>
+                                    <div class="order-product-title"> 
+                                        <a href="">
+                                            <h5>${value.name_slo}</h5>
+                                            <p>${value.options.description_slo}</p>
+                                        </a> 
+                                    </div>
+                                </div>
+                            <div class="order-status"> Cena: <b>${value.price} €</b>
+                                <div class="quantity">
+                                    <span>Quantity:</span>
+                                    ${value.qty > 1
 
-                        </ul>
-                    </div>
-                    <button type="submit" class="btn btn-submit">Proceed to checkout</button></div>`);
-                        $.each(response.carts, function(key, value) {
-                            rows += `
+                                        ? `<span type="submit" id="${value.rowId}" onclick="cartDecrement(this.id)"><i class="fa fa-minus"></i></span>`
+                                        : `<span type="submit" disabled ><i class="fa fa-minus"></i></span>`
+                                }
+                                    <span>
+                                        <input type="text" class="form-control" value="${value.qty}" style="width:50px;" />
+                                    </span>
+                                    <span type="submit" id="${value.rowId}" onclick="cartIncrement(this.id)"><i class="fa fa-plus"></i></span>
+                                </div>
+                            </div>
+                            <div class="order-action"><br><br> Subtotal: <b>${value.subtotal} €</b>  </div>
+                            </div>
+                        </div>`
+
+                            });
+                        } else {
+
+                            $('span[id="cartSubTotal"]').text(response.cartTotal);
+                            $('span[id="cartQty"').text(response.cartQty);
+                            $('#cartTotals').html(
+                                `<div class="cart-total-section"><h3> </h3>
+                    
+                    <a href="{{ route('checkout') }}" type="submit" class="btn btn-submit">Proceed to checkout</a></div>`
+                            );
+                            $.each(response.carts, function(key, value) {
+                                rows += `
                         <div class="order-section">
                             <div class="order-top justify-content-end">
                                 <div class="order-id mr-auto"> Added to cart: <b>${new Date(value.options.created_at).toLocaleDateString("sl-SI", {year: 'numeric', month: 'long', day: 'numeric'})} </b> </div>
@@ -1241,8 +1300,8 @@
                                     <div class="order-product-img"><img src="/frontend/images/products/thumbs/${value.options.image}" alt=""/></div>
                                     <div class="order-product-title"> 
                                         <a href="">
-                                            <h5>${value.name}</h5>
-                                            <p>${value.options.description}</p>
+                                            <h5>${value.name_en}</h5>
+                                            <p>${value.options.description_en}</p>
                                         </a> 
                                     </div>
                                 </div>
@@ -1264,7 +1323,8 @@
                             </div>
                         </div>`
 
-                        });
+                            });
+                        }
                     }
 
 
@@ -1283,7 +1343,7 @@
                 url: '/user/cart-remove/' + id,
                 dataType: 'json',
                 success: function(data) {
-                    // couponCalculation();
+                    couponCalculation();
                     cart();
                     miniCart();
                     $('#couponField').show();
@@ -1400,7 +1460,6 @@
         }
         miniCart();
 
-
         /// mini cart remove Start 
         function miniCartRemove(rowId) {
             $.ajax({
@@ -1438,13 +1497,13 @@
             });
 
         }
-
         //  end mini cart remove 
     </script>
 
     <!-- /// Wish List /// -->
     <script type="text/javascript">
-        function addToWishList(product_id) {
+        function addToWishList(product_id, event) {
+            event.preventDefault();
             $.ajax({
                 type: "POST",
                 dataType: 'json',
@@ -1487,10 +1546,15 @@
                 dataType: 'json',
                 success: function(response) {
                     rows = '';
-                    if (response == '') {
-                        rows = 'Your wishlist doesnt have any products.'
+                    if (response.wishlist == '') {
+                        if (response.language === 'slovenian') {
+                            rows = 'Na vaše seznamu želja trenutno nimate nobenega artikla.'
+                        } else {
+                            rows = 'Your wishlist doesnt have any products.'
+                        }
+
                     } else {
-                        $.each(response, function(key, value) {
+                        $.each(response.wishlist, function(key, value) {
                             rows += `<div class="order-section">
                     <div class="order-details">
                         <div class="order-product">
@@ -1519,6 +1583,9 @@
             })
 
         }
+
+
+
         wishlist();
 
 

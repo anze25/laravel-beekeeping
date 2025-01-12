@@ -190,91 +190,183 @@
     </script>
 
     <!-- Add to Cart Product Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel"><strong><span id="pname"></span> </strong></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeModel">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+    @if (session()->get('language') == 'slovenian')
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"><strong><span id="pname_slo"></span> </strong>
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Zapri" id="closeModel">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-4">
+
+                                <div class="card" style="width: 18rem;">
+
+                                    <img src=" " class="card-img-top" alt="..."
+                                        style="height: 200px; width: 200px;" id="pimage">
+
+                                </div>
+
+                            </div><!-- // end col md -->
+
+
+                            <div class="col-md-4">
+
+                                <ul class="list-group">
+                                    <li class="list-group-item">Cena artikla: <strong class="text-danger">€<span
+                                                id="pprice"> </span></strong>
+                                        <del id="oldprice">€</del>
+                                    </li>
+                                    <li class="list-group-item">Koda artikla: <strong id="pcode"></strong></li>
+                                    <li class="list-group-item">Kategorija: <strong id="pcategory"></strong></li>
+                                    <li class="list-group-item">Zaloga: <span class="badge badge-pill badge-success"
+                                            id="aviable" style="background: green; color: white;"></span>
+                                        <span class="badge badge-pill badge-danger" id="stockout"
+                                            style="background: red; color: white;"></span>
+
+                                    </li>
+                                </ul>
+
+                            </div><!-- // end col md -->
+
+
+                            <div class="col-md-4">
+
+                                <div class="form-group">
+                                    <label for="color">Izberi barvo</label>
+                                    <select class="form-control" id="color" name="color">
+
+
+                                    </select>
+                                </div> <!-- // end form group -->
+
+
+                                <div class="form-group" id="sizeArea">
+                                    <label for="size">Izberi velikost</label>
+                                    <select class="form-control" id="size" name="size">
+                                        <option>1</option>
+
+                                    </select>
+                                </div> <!-- // end form group -->
+
+                                <div class="form-group">
+                                    <label for="qty">Količina</label>
+                                    <input type="number" class="form-control" id="qty" value="1"
+                                        min="1">
+                                </div> <!-- // end form group -->
+
+                                <input type="hidden" id="product_id">
+                                <button type="submit" class="btn btn-primary mb-2" onclick="addToCart()">V
+                                    košarico</button>
+
+
+                            </div><!-- // end col md -->
+
+
+                        </div> <!-- // end row -->
+
+
+
+                    </div> <!-- // end modal Body -->
+
                 </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-4">
-
-                            <div class="card" style="width: 18rem;">
-
-                                <img src=" " class="card-img-top" alt="..."
-                                    style="height: 200px; width: 200px;" id="pimage">
-
-                            </div>
-
-                        </div><!-- // end col md -->
-
-
-                        <div class="col-md-4">
-
-                            <ul class="list-group">
-                                <li class="list-group-item">Product Price: <strong class="text-danger">$<span
-                                            id="pprice"> </span></strong>
-                                    <del id="oldprice">$</del>
-                                </li>
-                                <li class="list-group-item">Product Code: <strong id="pcode"></strong></li>
-                                <li class="list-group-item">Category: <strong id="pcategory"></strong></li>
-                                <li class="list-group-item">Stock: <span class="badge badge-pill badge-success"
-                                        id="aviable" style="background: green; color: white;"></span>
-                                    <span class="badge badge-pill badge-danger" id="stockout"
-                                        style="background: red; color: white;"></span>
-
-                                </li>
-                            </ul>
-
-                        </div><!-- // end col md -->
-
-
-                        <div class="col-md-4">
-
-                            <div class="form-group">
-                                <label for="color">Choose Color</label>
-                                <select class="form-control" id="color" name="color">
-
-
-                                </select>
-                            </div> <!-- // end form group -->
-
-
-                            <div class="form-group" id="sizeArea">
-                                <label for="size">Choose Size</label>
-                                <select class="form-control" id="size" name="size">
-                                    <option>1</option>
-
-                                </select>
-                            </div> <!-- // end form group -->
-
-                            <div class="form-group">
-                                <label for="qty">Quantity</label>
-                                <input type="number" class="form-control" id="qty" value="1"
-                                    min="1">
-                            </div> <!-- // end form group -->
-
-                            <input type="hidden" id="product_id">
-                            <button type="submit" class="btn btn-primary mb-2" onclick="addToCart()">Add to
-                                Cart</button>
-
-
-                        </div><!-- // end col md -->
-
-
-                    </div> <!-- // end row -->
-
-
-
-                </div> <!-- // end modal Body -->
-
             </div>
         </div>
-    </div>
+    @else
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"><strong><span id="pname_en"></span> </strong>
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                            id="closeModel">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-4">
+
+                                <div class="card" style="width: 18rem;">
+
+                                    <img src=" " class="card-img-top" alt="..."
+                                        style="height: 200px; width: 200px;" id="pimage">
+
+                                </div>
+
+                            </div><!-- // end col md -->
+
+
+                            <div class="col-md-4">
+
+                                <ul class="list-group">
+                                    <li class="list-group-item">Product Price: <strong class="text-danger">$<span
+                                                id="pprice"> </span></strong>
+                                        <del id="oldprice">$</del>
+                                    </li>
+                                    <li class="list-group-item">Product Code: <strong id="pcode"></strong></li>
+                                    <li class="list-group-item">Category: <strong id="pcategory"></strong></li>
+                                    <li class="list-group-item">Stock: <span class="badge badge-pill badge-success"
+                                            id="aviable" style="background: green; color: white;"></span>
+                                        <span class="badge badge-pill badge-danger" id="stockout"
+                                            style="background: red; color: white;"></span>
+
+                                    </li>
+                                </ul>
+
+                            </div><!-- // end col md -->
+
+
+                            <div class="col-md-4">
+
+                                <div class="form-group">
+                                    <label for="color">Choose Color</label>
+                                    <select class="form-control" id="color" name="color">
+
+
+                                    </select>
+                                </div> <!-- // end form group -->
+
+
+                                <div class="form-group" id="sizeArea">
+                                    <label for="size">Choose Size</label>
+                                    <select class="form-control" id="size" name="size">
+                                        <option>1</option>
+
+                                    </select>
+                                </div> <!-- // end form group -->
+
+                                <div class="form-group">
+                                    <label for="qty">Quantity</label>
+                                    <input type="number" class="form-control" id="qty" value="1"
+                                        min="1" max="5">
+                                </div> <!-- // end form group -->
+
+                                <input type="hidden" id="product_id">
+                                <button type="submit" class="btn btn-primary mb-2" onclick="addToCart()">Add to
+                                    Cart</button>
+
+
+                            </div><!-- // end col md -->
+
+
+                        </div> <!-- // end row -->
+
+
+
+                    </div> <!-- // end modal Body -->
+
+                </div>
+            </div>
+        </div>
+    @endif
     <!-- End Add to Cart Product Modal -->
 
     <script type="text/javascript">
@@ -293,7 +385,9 @@
                 dataType: 'json',
                 success: function(data) {
                     // console.log(data)
-                    $('#pname').text(data.product.product_name_en);
+
+                    $('#pname_slo').text(data.product.product_name_slo);
+                    $('#pname_en').text(data.product.product_name_en);
                     $('#price').text(data.product.selling_price);
                     $('#pcode').text(data.product.product_code);
                     $('#pcategory').text(data.product.category.category_name_en);
@@ -302,7 +396,8 @@
                         .product_thumbnail);
 
                     $('#product_id').val(id);
-                    $('#qty').val(1);
+                    $('#qty').attr('max', data.product_qty).val(1);
+
 
                     // Product Price 
                     if (data.product.discount_price == null) {
@@ -322,7 +417,7 @@
                     if (data.product.product_qty > 0) {
                         $('#aviable').text('');
                         $('#stockout').text('');
-                        $('#aviable').text('aviable');
+                        $('#aviable').text('available');
 
                     } else {
                         $('#aviable').text('');
@@ -332,15 +427,29 @@
 
                     // Color
                     $('select[name="color"]').empty();
-                    $.each(data.color, function(key, value) {
-                        $('select[name="color"]').append('<option value=" ' + value + ' ">' + value +
-                            ' </option>')
-                    }) // end color
+
+                    if (data.language === 'slovenian') {
+                        $.each(data.color_slo, function(key, value) {
+                            $('select[name="color"]').append('<option value=" ' + value +
+                                ' ">' + value +
+                                ' </option>')
+                        })
+                    } else {
+                        $.each(data.color, function(key, value) {
+                            $('select[name="color"]').append('<option value=" ' + value +
+                                ' ">' + value +
+                                ' </option>')
+                        })
+                    }
+
+
+                    // end color
 
                     // Size
                     $('select[name="size"]').empty();
                     $.each(data.size, function(key, value) {
-                        $('select[name="size"]').append('<option value=" ' + value + ' ">' + value +
+                        $('select[name="size"]').append('<option value=" ' + value + ' ">' +
+                            value +
                             ' </option>')
                         if (data.size == "") {
                             $('#sizeArea').hide();
@@ -351,6 +460,8 @@
                     }) // end size
 
 
+
+
                 }
 
             })
@@ -359,11 +470,12 @@
 
 
         function addToCart() {
-            var product_name = $('#pname').text();
+            var product_name = $('#pname_slo').text();
             var id = $('#product_id').val();
-            var color = $('#color option:selected').text();
-            var size = $('#size option:selected').text();
+            var color = $('#color option:selected').index();
+            var size = $('#size option:selected').index();
             var quantity = $('#qty').val();
+
             $.ajax({
                 type: "POST",
                 dataType: 'json',
@@ -377,6 +489,7 @@
                 success: function(data) {
 
                     miniCart()
+
                     $('#closeModel').click();
                     // console.log(data)
 
@@ -402,10 +515,11 @@
 
                     }
 
+
                     // End Message 
                 }
             })
-
+            wishlist()
         }
     </script>
     <!-- /// Load My Cart /// -->
@@ -435,15 +549,68 @@
 
                         totals = ''
                     } else {
-                        $('span[id="cartSubTotal"]').text(response.cartTotal);
-                        $('span[id="cartQty"').text(response.cartQty);
-                        $('#cartTotals').html(
-                            `<div class="cart-total-section"><h3> </h3>
+                        if (response.language === 'slovenian') {
+                            $('span[id="cartSubTotal"]').text(response.cartTotal);
+                            $('span[id="cartQty"').text(response.cartQty);
+                            $('#cartTotals').html(
+                                `<div class="cart-total-section"><h3> </h3>
+                    
+                    <a href="{{ route('checkout') }}" type="submit" class="btn btn-submit">Na blagajno</a></div>`
+                            );
+                            $.each(response.carts, function(key, value) {
+                                rows += `
+                        <div class="order-section">
+                            <div class="order-top justify-content-end">
+                                <div class="order-id mr-auto"> Dodano v košarico: <b>${new Date(value.options.created_at).toLocaleDateString("sl-SI", {year: 'numeric', month: 'long', day: 'numeric'})} </b> </div>
+                                <div class="delete-order"> 
+                                    <a href="" type="submit" id="${value.rowId}" onclick="cartRemove(this.id)">
+                                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                    </a> 
+                                </div>
+                            </div>
+                            <div class="order-details">
+                                <div class="order-product">
+                                    <div class="order-product-img"><img src="/frontend/images/products/thumbs/${value.options.image}" alt=""/></div>
+                                    <div class="order-product-title"> 
+                                        <a href="">
+                                            <h5>${value.options.name_slo}</h5>
+                                            <p>${value.options.description_slo}</p>
+                                        </a> 
+                                    </div>
+                                </div>
+                            <div class="order-status"> Cena: <b>${value.price} €</b>
+                                <div class="quantity">
+                                    <span>Količina:</span>
+                                    ${value.qty > 1
+
+                                        ? `<span type="submit" id="${value.rowId}" onclick="cartDecrement(this.id)"><i class="fa fa-minus"></i></span>`
+                                        : `<span type="submit" disabled ><i class="fa fa-minus"></i></span>`
+                                }
+                                    <span>
+                                        <input type="text" class="form-control" value="${value.qty}" style="width:50px;" />
+                                    </span>
+                                    <span type="submit" id="${value.rowId}" onclick="cartIncrement(this.id)"><i class="fa fa-plus"></i></span>
+                                </div>
+                                Barva: <b>${value.options.color_slo}</b><br>
+                                
+                                Velikost: <b>${value.options.size_slo}</b>
+                            </div>
+                            <div class="order-action"><br><br> Skupaj: <b>${value.subtotal} €</b>  </div>
+                            </div>
+                        </div>`
+
+                            });
+                        } else {
+
+                            $('span[id="cartSubTotal"]').text(response.cartTotal);
+                            $('span[id="cartQty"').text(response.cartQty);
+                            $('#cartTotals').html(
+                                `<div class="cart-total-section"><h3> </h3>
                     
                     <a href="{{ route('checkout') }}" type="submit" class="btn btn-submit">Proceed to checkout</a></div>`
-                        );
-                        $.each(response.carts, function(key, value) {
-                            rows += `
+                            );
+                            $.each(response.carts, function(key, value) {
+                                rows += `
                         <div class="order-section">
                             <div class="order-top justify-content-end">
                                 <div class="order-id mr-auto"> Added to cart: <b>${new Date(value.options.created_at).toLocaleDateString("sl-SI", {year: 'numeric', month: 'long', day: 'numeric'})} </b> </div>
@@ -458,8 +625,8 @@
                                     <div class="order-product-img"><img src="/frontend/images/products/thumbs/${value.options.image}" alt=""/></div>
                                     <div class="order-product-title"> 
                                         <a href="">
-                                            <h5>${value.name}</h5>
-                                            <p>${value.options.description}</p>
+                                            <h5>${value.options.name_en}</h5>
+                                            <p>${value.options.description_en}</p>
                                         </a> 
                                     </div>
                                 </div>
@@ -476,12 +643,16 @@
                                     </span>
                                     <span type="submit" id="${value.rowId}" onclick="cartIncrement(this.id)"><i class="fa fa-plus"></i></span>
                                 </div>
+                                Color: <b>${value.options.color_en}</b><br>
+                                
+                                Size: <b>${value.options.size_en}</b>
                             </div>
                             <div class="order-action"><br><br> Subtotal: <b>${value.subtotal} €</b>  </div>
                             </div>
                         </div>`
 
-                        });
+                            });
+                        }
                     }
 
 
@@ -592,12 +763,28 @@
                     $('span[id="cartSubTotal"]').text(response.cartTotal);
                     $('span[id="cartQty"').text(response.cartQty);
                     var miniCart = ""
-
-                    $.each(response.carts, function(key, value) {
-                        miniCart +=
-                            `<li class="clearfix"> 
+                    if (response.language === 'slovenian') {
+                        $.each(response.carts, function(key, value) {
+                            miniCart +=
+                                `<li class="clearfix"> 
                                 <img src="/frontend/images/products/thumbs/${value.options.image}" alt="item1" /> 
-                                <div class="row justify-content-between"><span class="item-name">${value.name}</span> 
+                                <div class="row justify-content-between"><span class="item-name">${value.options.name_slo}</span> 
+                                <span class="item-delete"> <button type="submit" id="${value.rowId}" onclick="miniCartRemove(this.id)"><i class="fa fa-trash"></i></button></span>
+                                </div>
+                                
+                                <span class="item-price">${value.price} €
+                                                                   
+                               
+                                <span class="item-quantity">Količina: ${value.qty} </span> 
+                                
+                            </li>`
+                        });
+                    } else {
+                        $.each(response.carts, function(key, value) {
+                            miniCart +=
+                                `<li class="clearfix"> 
+                                <img src="/frontend/images/products/thumbs/${value.options.image}" alt="item1" /> 
+                                <div class="row justify-content-between"><span class="item-name">${value.options.name_en}</span> 
                                 <span class="item-delete"> <button type="submit" id="${value.rowId}" onclick="miniCartRemove(this.id)"><i class="fa fa-trash"></i></button></span>
                                 </div>
                                 
@@ -607,7 +794,9 @@
                                 <span class="item-quantity">Quantity: ${value.qty} </span> 
                                 
                             </li>`
-                    });
+                        });
+                    }
+
 
                     $('#miniCart').html(miniCart);
                     cart();
@@ -660,6 +849,7 @@
     <!-- /// Wish List /// -->
     <script type="text/javascript">
         function addToWishList(product_id) {
+
             $.ajax({
                 type: "POST",
                 dataType: 'json',
@@ -672,8 +862,7 @@
                         toast: true,
                         position: 'top-end',
 
-                        showConfirmButton: false,
-                        timer: 3000
+                        timer: 5000
                     })
                     if ($.isEmptyObject(data.error)) {
                         Toast.fire({
@@ -710,8 +899,30 @@
                         }
 
                     } else {
-                        $.each(response.wishlist, function(key, value) {
-                            rows += `<div class="order-section">
+                        if (response.language === 'slovenian') {
+                            $.each(response.wishlist, function(key, value) {
+                                rows += `<div class="order-section">
+                    <div class="order-details">
+                        <div class="order-product">
+                            <div class="order-product-img"><img src="/frontend/images/products/thumbs/${value.product.product_thumbnail}" alt="" /></div>
+                            <div class="order-product-title"> <a href="">
+                                    <h5>${value.product.product_name_slo}</h5>
+                                    <p>${value.product.short_desc_slo}</p>
+                                </a> </div>
+                        </div>
+                        <div class="order-status">
+                            
+                            <p>Added ${new Date(value.created_at).toLocaleDateString("sl-SI", {year: 'numeric', month: 'long', day: 'numeric'})} </p>
+                        </div>
+                        <div class="order-action">
+                            <a data-toggle="modal" data-target="#exampleModal" id="${value.product_id}" onclick="productView(this.id)" class="btn-action btn-track" >V košarico</a>
+                            <a type="submit" id="${value.id}" onclick="wishlistRemove(this.id)" class="btn-action btn-cancel">Odstrani</a> </div>
+                    </div>
+                </div>`
+                            });
+                        } else {
+                            $.each(response.wishlist, function(key, value) {
+                                rows += `<div class="order-section">
                     <div class="order-details">
                         <div class="order-product">
                             <div class="order-product-img"><img src="/frontend/images/products/thumbs/${value.product.product_thumbnail}" alt="" /></div>
@@ -725,11 +936,13 @@
                             <p>Added ${new Date(value.created_at).toLocaleDateString("sl-SI", {year: 'numeric', month: 'long', day: 'numeric'})} </p>
                         </div>
                         <div class="order-action">
-                            <a data-toggle="modal" data-target="#exampleModal" id="${value.product_id}" onclick="productView(this.id)" class="btn-action btn-track" >Add to cart</a>
+                            <a data-toggle="modal" data-target="#exampleModal" id="${value.product_id}" onclick="productView(this.id)" class="btn-action btn-track" >Add to Cart</a>
                             <a type="submit" id="${value.id}" onclick="wishlistRemove(this.id)" class="btn-action btn-cancel">Remove</a> </div>
                     </div>
                 </div>`
-                        });
+                            });
+                        }
+
                     }
 
 
@@ -931,17 +1144,7 @@
         }
     </script>
 
-    {{-- <script>
-        document.getElementById('pageSize').onchange = function() {
-            window.location = "{!! $products->url(0) !!}&pageSize=" + this.value;
-        };
-        document.getElementById('sortBy').onchange = function() {
-            window.location = "{!! $products->url(0) !!}&sortBy=" + this.value;
-        };
-        document.getElementById('query').onchange = function() {
-            window.location = "{!! $products->url(0) !!}&query=" + this.value;
-        };
-    </script> --}}
+
     <style>
         .category-top .sort-by select {
             width: 100%;

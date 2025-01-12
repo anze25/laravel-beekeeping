@@ -1,5 +1,19 @@
 @extends('admin.admin_master')
 @section('admin')
+    <!-- External CSS libraries -->
+    <link type="text/css" rel="stylesheet" href="{{ asset('../invoice/assets/css/bootstrap.min.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ asset('../invoice/assets/fonts/font-awesome/css/font-awesome.min.css') }}">
+
+    <!-- Favicon icon -->
+    <link rel="shortcut icon" href="{{ asset('../invoice/assets/img/favicon.ico') }}" type="image/x-icon">
+
+    <!-- Google fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" type="text/css"
+        href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900">
+
+    <!-- Custom Stylesheet -->
+    <link type="text/css" rel="stylesheet" href="{{ asset('../invoice/assets/css/style.css') }}">
     <!-- Content Wrapper. Contains page content -->
 
     <div class="container-full">
@@ -7,247 +21,215 @@
 
 
         <div class="content-header">
-            <div class="d-flex align-items-center">
-                <div class="mr-auto">
-                    <h3 class="page-title">Order Details</h3>
-                    <div class="d-inline-block align-items-center">
-                        <nav>
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
-                                <li class="breadcrumb-item" aria-current="page">Order Details</li>
 
-                            </ol>
-                        </nav>
-                    </div>
-                </div>
-            </div>
         </div>
 
 
 
         <!-- Main content -->
         <section class="content">
-            <div class="row">
+            <!-- Invoice 1 start -->
+            <div class="invoice-1 invoice-content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="invoice-inner clearfix">
+                                <div class="invoice-info clearfix" id="invoice_wrapper">
+                                    <div class="invoice-headar">
+                                        <div class="row g-0">
+                                            <div class="col-sm-6">
+                                                <div class="invoice-logo">
+                                                    <!-- logo started -->
+                                                    <div class="logo">
+                                                        <img src="{{ asset('frontend/assets/images/logo.png') }}"
+                                                            alt="logo">
+                                                    </div>
+                                                    <!-- logo ended -->
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 invoice-id">
+                                                <div class="info">
+                                                    <h1 class="color-white inv-header-1">Invoice</h1>
+                                                    <p class="color-white mb-1">Number:
+                                                        <span>{{ $order->invoice_no }}</span>
+                                                    </p>
+                                                    <p class="color-white mb-0">Date:
+                                                        <span>{{ $order->order_date }}</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="invoice-top">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="invoice-number mb-30">
+                                                    <h4 class="inv-title-1">Invoice To</h4>
+                                                    <h2 class="name mb-10">{{ $order->user->first_name }}
+                                                        {{ $order->user->last_name }}</h2>
+                                                    <p class="invo-addr-1">
+                                                        Theme Vessel <br />
+                                                        info@themevessel.com <br />
+                                                        {{ $order->post_code }} Green Street, Meherpur, Bangladesh <br />
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="invoice-number mb-30">
+                                                    <div class="invoice-number-inner">
+                                                        <h4 class="inv-title-1">Invoice From</h4>
+                                                        <h2 class="name mb-10">Animas Roky</h2>
+                                                        <p class="invo-addr-1">
+                                                            Apexo Inc <br />
+                                                            billing@apexo.com <br />
+                                                            169 Teroghoria, Bangladesh <br />
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="invoice-center">
+                                        <div class="table-responsive">
+                                            <table class="table mb-0 table-striped invoice-table">
+                                                <thead class="bg-active">
+                                                    <tr class="tr">
+                                                        <th>No.</th>
+                                                        <th class="pl0 text-start">Item Description</th>
+                                                        <th class="text-center">Price</th>
+                                                        <th class="text-center">Quantity</th>
+                                                        <th class="text-end">Amount</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="tr">
+                                                        <td>
+                                                            <div class="item-desc-1">
+                                                                <span>01</span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="pl0">Businesscard Design</td>
+                                                        <td class="text-center">$300</td>
+                                                        <td class="text-center">2</td>
+                                                        <td class="text-end">$600.00</td>
+                                                    </tr>
+                                                    <tr class="bg-grea">
+                                                        <td>
+                                                            <div class="item-desc-1">
+                                                                <span>02</span>
 
+                                                            </div>
+                                                        </td>
+                                                        <td class="pl0">Fruit Flayer Design</td>
+                                                        <td class="text-center">$400</td>
+                                                        <td class="text-center">1</td>
+                                                        <td class="text-end">$60.00</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="item-desc-1">
+                                                                <span>03</span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="pl0">Application Interface Design</td>
+                                                        <td class="text-center">$240</td>
+                                                        <td class="text-center">3</td>
+                                                        <td class="text-end">$640.00</td>
+                                                    </tr>
 
-                <div class="col-md-6 col-12">
-                    <div class="box box-bordered border-primary">
-                        <div class="box-header with-border">
-                            <h4 class="box-title"><strong>Shipping Details</strong> </h4>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="item-desc-1">
+                                                                <span>04</span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="pl0">Theme Development</td>
+                                                        <td class="text-center">$720</td>
+                                                        <td class="text-center">4</td>
+                                                        <td class="text-end">$640.00</td>
+                                                    </tr>
+                                                    <tr class="tr2">
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td class="text-center">SubTotal</td>
+                                                        <td class="text-end">$710.99</td>
+                                                    </tr>
+                                                    <tr class="tr2">
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td class="text-center">Tax</td>
+                                                        <td class="text-end">$85.99</td>
+                                                    </tr>
+                                                    <tr class="tr2">
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td class="text-center f-w-600 active-color">Grand Total</td>
+                                                        <td class="f-w-600 text-end active-color">$795.99</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="invoice-bottom">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-8 col-sm-7">
+                                                <div class="mb-30 dear-client">
+                                                    <h3 class="inv-title-1">Terms & Conditions</h3>
+                                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting
+                                                        industry. Lorem Ipsum has been typesetting industry. Lorem Ipsum</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-4 col-sm-5">
+                                                <div class="mb-30 payment-method">
+                                                    <h3 class="inv-title-1">Payment Method</h3>
+                                                    <ul class="payment-method-list-1 text-14">
+                                                        <li><strong>Account No:</strong> 00 123 647 840</li>
+                                                        <li><strong>Account Name:</strong> Jhon Doe</li>
+                                                        <li><strong>Branch Name:</strong> xyz</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="invoice-contact clearfix">
+                                        <div class="row g-0">
+                                            <div class="col-lg-9 col-md-11 col-sm-12">
+                                                <div class="contact-info">
+                                                    <a href="tel:+55-4XX-634-7071"><i class="fa fa-phone"></i> +00 123 647
+                                                        840</a>
+                                                    <a href="tel:info@themevessel.com"><i class="fa fa-envelope"></i>
+                                                        info@themevessel.com</a>
+                                                    <a href="tel:info@themevessel.com" class="mr-0 d-none-580"><i
+                                                            class="fa fa-map-marker"></i> 169 Teroghoria, Bangladesh</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="invoice-btn-section clearfix d-print-none">
+                                    <a href="javascript:window.print()" class="btn btn-lg btn-print">
+                                        <i class="fa fa-print"></i> Print Invoice
+                                    </a>
+                                    <a id="invoice_download_btn" class="btn btn-lg btn-download btn-theme">
+                                        <i class="fa fa-download"></i> Download Invoice
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-
-
-                        <table class="table">
-                            <tr>
-                                <th> Shipping Name : </th>
-                                <th> {{ $order->name }} </th>
-                            </tr>
-
-                            <tr>
-                                <th> Shipping Phone : </th>
-                                <th> {{ $order->phone }} </th>
-                            </tr>
-
-                            <tr>
-                                <th> Shipping Email : </th>
-                                <th> {{ $order->email }} </th>
-                            </tr>
-
-                            <tr>
-                                <th> Post Code : </th>
-                                <th> {{ $order->post_code }} </th>
-                            </tr>
-
-                            <tr>
-                                <th> Order Date : </th>
-                                <th> {{ $order->order_date }} </th>
-                            </tr>
-
-                        </table>
-
-
-
                     </div>
-                </div> <!--  // cod md -6 -->
-
-
-                <div class="col-md-6 col-12">
-                    <div class="box box-bordered border-primary">
-                        <div class="box-header with-border">
-                            <h4 class="box-title"><strong>Order Details</strong><span class="text-danger"> Invoice :
-                                    {{ $order->invoice_no }}</span></h4>
-                        </div>
-
-
-                        <table class="table">
-                            <tr>
-                                <th> Name : </th>
-                                <th> {{ $order->user->name }} </th>
-                            </tr>
-
-                            <tr>
-                                <th> Phone : </th>
-                                <th> {{ $order->user->phone }} </th>
-                            </tr>
-
-                            <tr>
-                                <th> Payment Type : </th>
-                                <th> {{ $order->payment_method }} </th>
-                            </tr>
-
-                            <tr>
-                                <th> Tranx ID : </th>
-                                <th> {{ $order->transaction_id }} </th>
-                            </tr>
-
-                            <tr>
-                                <th> Invoice : </th>
-                                <th class="text-danger"> {{ $order->invoice_no }} </th>
-                            </tr>
-
-                            <tr>
-                                <th> Order Total : </th>
-                                <th>${{ $order->amount }} </th>
-                            </tr>
-
-                            <tr>
-                                <th> Order : </th>
-                                <th>
-                                    <span class="badge badge-pill badge-warning"
-                                        style="background: #418DB9;">{{ $order->status }} </span>
-                                </th>
-                            </tr>
-
-
-                            <tr>
-                                <th> </th>
-                                <th>
-                                    @if ($order->status == 'pending')
-                                        <a href="{{ route('pending-confirm', $order->id) }}"
-                                            class="btn btn-block btn-success" id="confirm">Confirm Order</a>
-                                    @elseif($order->status == 'confirm')
-                                        <a href="{{ route('confirm.processing', $order->id) }}"
-                                            class="btn btn-block btn-success" id="processing">Processing Order</a>
-                                    @elseif($order->status == 'processing')
-                                        <a href="{{ route('processing.picked', $order->id) }}"
-                                            class="btn btn-block btn-success" id="picked">Picked Order</a>
-                                    @elseif($order->status == 'picked')
-                                        <a href="{{ route('picked.shipped', $order->id) }}"
-                                            class="btn btn-block btn-success" id="shipped">Shipped Order</a>
-                                    @elseif($order->status == 'shipped')
-                                        <a href="{{ route('shipped.delivered', $order->id) }}"
-                                            class="btn btn-block btn-success" id="delivered">Delivered Order</a>
-                                    @endif
-
-                                </th>
-                            </tr>
-
-
-
-                        </table>
-
-
-
-                    </div>
-                </div> <!--  // cod md -6 -->
-
-
-
-
-
-                <div class="col-md-12 col-12">
-                    <div class="box box-bordered border-primary">
-                        <div class="box-header with-border">
-
-                        </div>
-
-
-
-                        <table class="table">
-                            <tbody>
-
-                                <tr>
-                                    <td width="10%">
-                                        <label for=""> Image</label>
-                                    </td>
-
-                                    <td width="20%">
-                                        <label for=""> Product Name </label>
-                                    </td>
-
-                                    <td width="10%">
-                                        <label for=""> Product Code</label>
-                                    </td>
-
-
-                                    <td width="10%">
-                                        <label for=""> Color </label>
-                                    </td>
-
-                                    <td width="10%">
-                                        <label for=""> Size </label>
-                                    </td>
-
-                                    <td width="10%">
-                                        <label for=""> Quantity </label>
-                                    </td>
-
-                                    <td width="10%">
-                                        <label for=""> Price </label>
-                                    </td>
-
-                                </tr>
-
-
-                                @foreach ($orderItem as $item)
-                                    <tr>
-                                        <td width="10%">
-                                            <label for=""><img
-                                                    src="/frontend/images/products/thumbs/{{ $item->product->product_thumbnail }}"
-                                                    height="50px;" width="50px;"> </label>
-                                        </td>
-
-                                        <td width="20%">
-                                            <label for=""> {{ $item->product->product_name_en }}</label>
-                                        </td>
-
-
-                                        <td width="10%">
-                                            <label for=""> {{ $item->product->product_code }}</label>
-                                        </td>
-
-                                        <td width="10%">
-                                            <label for=""> {{ $item->color }}</label>
-                                        </td>
-
-                                        <td width="10%">
-                                            <label for=""> {{ $item->size }}</label>
-                                        </td>
-
-                                        <td width="10%">
-                                            <label for=""> {{ $item->qty }}</label>
-                                        </td>
-
-                                        <td width="10%">
-                                            <label for=""> ${{ $item->price }} ( $
-                                                {{ $item->price * $item->qty }} ) </label>
-                                        </td>
-
-                                    </tr>
-                                @endforeach
-
-                            </tbody>
-
-                        </table>
-
-
-                    </div>
-                </div> <!--  // cod md -12 -->
-
+                </div>
             </div>
+            <!-- Invoice 1 end -->
             <!-- /. end row -->
         </section>
         <!-- /.content -->
 
     </div>
+    <script src="{{ asset('../invoice/assets/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('../invoice/assets/js/jspdf.min.js') }}"></script>
+    <script src="{{ asset('../invoice/assets/js/html2canvas.js') }}"></script>
+    <script src="{{ asset('../invoice/assets/js/app.js') }}"></script>
 @endsection

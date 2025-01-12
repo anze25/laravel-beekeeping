@@ -99,10 +99,18 @@
                     id="cartSubTotal"></span> </div>
         </div>
         <!--end shopping-cart-header -->
+        <a href="{{ route('mycart') }}" type="submit" class="button">
+            @if (session()->get('language') == 'slovenian')
+                V košarico
+            @else
+                Go To Cart
+            @endif
 
+
+        </a>
         <ul class="shopping-cart-items" id="miniCart">
 
         </ul>
-        <a href="{{ route('mycart') }}" type="submit" class="button">Go To Cart</a>
+
     </div>
 </div>

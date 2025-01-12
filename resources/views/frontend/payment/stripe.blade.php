@@ -3,7 +3,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 @section('title')
-    Stripe Payment Page
+    @if (session()->get('language') == 'slovenian')
+        Plačilo s kartico
+    @else
+        Stripe Payment Page
+    @endif
 @endsection
 
 
@@ -42,78 +46,157 @@
         <div class="customer-login">
             <div class="row">
                 <div class="col-12 col-lg-6">
-                    <div class="customer-login-left">
-                        <h3>Your Shopping Amount </h3>
-                        <ul>
-                            <hr>
-                            <br>
-                            <li style="font-size:1.2em">
-                                @if (Session::has('coupon'))
-                                    <strong>SubTotal: </strong> ${{ $cartTotal }}
-                                    <br>
-                                    <br>
+                    @if (session()->get('language') == 'slovenian')
+                        <div class="customer-login-left">
+                            <h3>Znesek nakupa</h3>
+                            <ul>
+                                <hr>
+                                <br>
+                                <li style="font-size:1.2em">
+                                    @if (Session::has('coupon'))
+                                        <strong>Skupaj: </strong> ${{ $cartTotal }}
+                                        <br>
+                                        <br>
 
-                                    <strong>Coupon Name: </strong>
-                                    {{ session()->get('coupon')['coupon_name'] }}
-                                    ( {{ session()->get('coupon')['coupon_discount'] }} % )
-                                    <br>
-                                    <br>
-                                    <strong>Coupon Discount: </strong>
-                                    ${{ session()->get('coupon')['discount_amount'] }}
-                                    <hr>
-                                    <br>
-                                    <span style="font-size:1.5em">
-                                        <strong>Grand Total: </strong>
-                                        ${{ session()->get('coupon')['total_amount'] }}</span>
-                                @else
-                                    <strong>SubTotal: </strong> ${{ $cartTotal }}
-                                    <hr>
+                                        <strong>Kupon: </strong>
+                                        {{ session()->get('coupon')['coupon_name'] }}
+                                        ( {{ session()->get('coupon')['coupon_discount'] }} % )
+                                        <br>
+                                        <br>
+                                        <strong>Popust kupona: </strong>
+                                        ${{ session()->get('coupon')['discount_amount'] }}
+                                        <hr>
+                                        <br>
+                                        <span style="font-size:1.5em">
+                                            <strong>Končni znesek: </strong>
+                                            ${{ session()->get('coupon')['total_amount'] }}</span>
+                                    @else
+                                        <strong>Skupaj: </strong> ${{ $cartTotal }}
+                                        <hr>
 
-                                    <strong>Grand Total: </strong> ${{ $cartTotal }}
-                                    <hr>
-                                @endif
+                                        <strong>Končni znesek: </strong> ${{ $cartTotal }}
+                                        <hr>
+                                    @endif
 
-                            </li>
+                                </li>
 
 
 
-                        </ul>
-                    </div>
+                            </ul>
+                        </div>
+                    @else
+                        <div class="customer-login-left">
+                            <h3>Your Shopping Amount </h3>
+                            <ul>
+                                <hr>
+                                <br>
+                                <li style="font-size:1.2em">
+                                    @if (Session::has('coupon'))
+                                        <strong>SubTotal: </strong> ${{ $cartTotal }}
+                                        <br>
+                                        <br>
+
+                                        <strong>Coupon Name: </strong>
+                                        {{ session()->get('coupon')['coupon_name'] }}
+                                        ( {{ session()->get('coupon')['coupon_discount'] }} % )
+                                        <br>
+                                        <br>
+                                        <strong>Coupon Discount: </strong>
+                                        ${{ session()->get('coupon')['discount_amount'] }}
+                                        <hr>
+                                        <br>
+                                        <span style="font-size:1.5em">
+                                            <strong>Grand Total: </strong>
+                                            ${{ session()->get('coupon')['total_amount'] }}</span>
+                                    @else
+                                        <strong>SubTotal: </strong> ${{ $cartTotal }}
+                                        <hr>
+
+                                        <strong>Grand Total: </strong> ${{ $cartTotal }}
+                                        <hr>
+                                    @endif
+
+                                </li>
+
+
+
+                            </ul>
+                        </div>
+                    @endif
                 </div>
                 <div class="col-12 col-lg-6">
-                    <div class="customer-login-block">
-                        <h3>Card Information</h3>
-                        <form action="{{ route('stripe.order') }}" method="post" id="payment-form">
-                            @csrf
-                            <div class="form-row">
-                                <label for="card-element">
+                    @if (session()->get('language') == 'slovenian')
+                        <div class="customer-login-block">
+                            <h3>Podatki plačnika</h3>
+                            <form action="{{ route('stripe.order') }}" method="post" id="payment-form">
+                                @csrf
+                                <div class="form-row">
+                                    <label for="card-element">
 
-                                    <input type="hidden" name="first_name" value="{{ $data['first_name'] }}">
-                                    <input type="hidden" name="last_name" value="{{ $data['last_name'] }}">
-                                    <input type="hidden" name="shipping_address"
-                                        value="{{ $data['shipping_address'] }}">
-                                    <input type="hidden" name="shipping_postal_code"
-                                        value="{{ $data['shipping_postal_code'] }}">
-                                    <input type="hidden" name="shipping_city" value="{{ $data['shipping_city'] }}">
-                                    <input type="hidden" name="shipping_country"
-                                        value="{{ $data['shipping_country'] }}">
-                                    {{-- <input type="hidden" name="division_id" value="{{ $data['division_id'] }}">
+                                        <input type="hidden" name="first_name" value="{{ $data['first_name'] }}">
+                                        <input type="hidden" name="last_name" value="{{ $data['last_name'] }}">
+                                        <input type="hidden" name="shipping_address"
+                                            value="{{ $data['shipping_address'] }}">
+                                        <input type="hidden" name="shipping_postal_code"
+                                            value="{{ $data['shipping_postal_code'] }}">
+                                        <input type="hidden" name="shipping_city"
+                                            value="{{ $data['shipping_city'] }}">
+                                        <input type="hidden" name="shipping_country"
+                                            value="{{ $data['shipping_country'] }}">
+                                        {{-- <input type="hidden" name="division_id" value="{{ $data['division_id'] }}">
                                     <input type="hidden" name="district_id" value="{{ $data['district_id'] }}">
                                     <input type="hidden" name="state_id" value="{{ $data['state_id'] }}"> --}}
-                                    <input type="hidden" name="notes" value="{{ $data['notes'] }}">
+                                        <input type="hidden" name="notes" value="{{ $data['notes'] }}">
 
-                                </label>
+                                    </label>
 
-                                <div id="card-element">
-                                    <!-- A Stripe Element will be inserted here. -->
+                                    <div id="card-element">
+                                        <!-- A Stripe Element will be inserted here. -->
+                                    </div>
+                                    <!-- Used to display form errors. -->
+                                    <div id="card-errors" role="alert"></div>
                                 </div>
-                                <!-- Used to display form errors. -->
-                                <div id="card-errors" role="alert"></div>
-                            </div>
-                            <br>
-                            <button class="btn btn-submit">Submit Payment</button>
-                        </form>
-                    </div>
+                                <br>
+                                <button class="btn btn-submit">Potrdi plačilo</button>
+                            </form>
+                        </div>
+                    @else
+                        <div class="customer-login-block">
+                            <h3>Card Information</h3>
+                            <form action="{{ route('stripe.order') }}" method="post" id="payment-form">
+                                @csrf
+                                <div class="form-row">
+                                    <label for="card-element">
+
+                                        <input type="hidden" name="first_name" value="{{ $data['first_name'] }}">
+                                        <input type="hidden" name="last_name" value="{{ $data['last_name'] }}">
+                                        <input type="hidden" name="shipping_address"
+                                            value="{{ $data['shipping_address'] }}">
+                                        <input type="hidden" name="shipping_postal_code"
+                                            value="{{ $data['shipping_postal_code'] }}">
+                                        <input type="hidden" name="shipping_city"
+                                            value="{{ $data['shipping_city'] }}">
+                                        <input type="hidden" name="shipping_country"
+                                            value="{{ $data['shipping_country'] }}">
+                                        {{-- <input type="hidden" name="division_id" value="{{ $data['division_id'] }}">
+                                    <input type="hidden" name="district_id" value="{{ $data['district_id'] }}">
+                                    <input type="hidden" name="state_id" value="{{ $data['state_id'] }}"> --}}
+                                        <input type="hidden" name="notes" value="{{ $data['notes'] }}">
+
+                                    </label>
+
+                                    <div id="card-element">
+                                        <!-- A Stripe Element will be inserted here. -->
+                                    </div>
+                                    <!-- Used to display form errors. -->
+                                    <div id="card-errors" role="alert"></div>
+                                </div>
+                                <br>
+                                <button class="btn btn-submit">Submit Payment</button>
+                            </form>
+                        </div>
+                    @endif
+
                 </div>
             </div>
         </div>

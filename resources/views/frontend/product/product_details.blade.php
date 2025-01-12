@@ -140,8 +140,11 @@
                             <div class="p-item-title">Velikost:</div>
 
                             <div class="p-item-main"><strong>
-                                    {{ $product->product_size_slo }}
-
+                                    <select class="form-control" id="size" name="size">
+                                        @foreach ($product_size_slo as $color)
+                                            <option value="{{ $size }}">{{ $size }}</option>
+                                        @endforeach
+                                    </select>
                                 </strong></div>
                         </div>
                     @else
@@ -149,7 +152,37 @@
                             <div class="p-item-title">Item Size:</div>
 
                             <div class="p-item-main"><strong>
-                                    {{ $product->product_size_en }}
+                                    <select class="form-control" id="size" name="size">
+                                        @foreach ($product_size_en as $size)
+                                            <option value="{{ $size }}">{{ $size }}</option>
+                                        @endforeach
+                                    </select>
+                                </strong></div>
+                        </div>
+                    @endif
+
+                    @if (session()->get('language') == 'slovenian')
+                        <div class="p-item p-item-color">
+                            <div class="p-item-title">Barva:</div>
+
+                            <div class="p-item-main"><strong>
+                                    <select class="form-control" id="color" name="color">
+                                        @foreach ($product_color_slo as $color)
+                                            <option value="{{ $color }}">{{ $color }}</option>
+                                        @endforeach
+                                    </select>
+                                </strong></div>
+                        </div>
+                    @else
+                        <div class="p-item p-item-color">
+                            <div class="p-item-title">Color:</div>
+
+                            <div class="p-item-main"><strong>
+                                    <select class="form-control" id="color" name="color">
+                                        @foreach ($product_color_en as $color)
+                                            <option value="{{ $color }}">{{ $color }}</option>
+                                        @endforeach
+                                    </select>
                                 </strong></div>
                         </div>
                     @endif
@@ -193,7 +226,8 @@
                     @if (session()->get('language') == 'slovenian')
                         <div class="p-item p-item-returnPolicy">
                             <div class="p-item-title">Vračila blaga:</div>
-                            <div class="p-item-main">Vračila so sprejeta, če izdelek ni v skladu z opisom, vrnitev plača
+                            <div class="p-item-main">Vračila so sprejeta, če izdelek ni v skladu z opisom, vrnitev
+                                plača
                                 kupec poštnina; ali obdržite izdelek in se dogovorite za vračilo kupnine s prodajalcem.
                                 <a href="">Več o tem</a>
                             </div>

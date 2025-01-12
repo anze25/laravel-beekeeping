@@ -1,0 +1,15 @@
+[
+    { "product_size_en": "Small", "product_size_sl": "Majhen", "price": 9.99 },
+    {
+        "product_size_en": "Medium",
+        "product_size_sl": "Srednji",
+        "price": 15.99
+    },
+    { "product_size_en": "Large", "product_size_sl": "Velik", "price": 29.99 },
+    {
+        "product_size_en": "Extra Large",
+        "product_size_sl": "Zelo velik",
+        "price": 23.99
+    },
+    { "product_size_en": "XXL", "product_size_sl": "XXL", "price": 11.99 }
+]

@@ -21,9 +21,10 @@
                     @forelse ($orders as $order)
                         <div class="order-section">
                             <div class="order-top justify-content-end">
-                                <div class="order-id mr-auto"> Številka nakupa: <b>{{ $order->invoice_no }}</b><br>
-                                    Datum nakupa: <small>{{ $order->order_date }}</small> </div>
-                                <div class="order-ammount"> Znesek nakupa: <strong>{{ $order->amount }} €</strong> </div>
+                                <div class="order-id mr-auto"> Številka naročila: <b>{{ $order->invoice_no }}</b><br>
+                                    Datum naročila: <small>{{ $order->order_date }}</small> </div>
+                                <div class="order-ammount"> Znesek naročila: <strong>{{ $order->amount }} €</strong>
+                                </div>
                                 <div class="delete-order"> <a href=""><i class="fa fa-trash-o"
                                             aria-hidden="true"></i></a>
                                 </div>

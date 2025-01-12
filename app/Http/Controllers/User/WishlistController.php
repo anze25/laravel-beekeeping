@@ -33,8 +33,12 @@ class WishlistController extends Controller
 
 	public function RemoveWishlistProduct($id)
 	{
-
+		$language = session()->get('language');
 		Wishlist::where('user_id', Auth::id())->where('id', $id)->delete();
-		return response()->json(['success' => 'Product was successfully removed from wishlist']);
+		if ($language === 'slovenian') {
+			return response()->json(['success' => 'Product je bil uspešno odstranjen iz seznama želja.']);
+		} else {
+			return response()->json(['success' => 'Product was successfully removed from wishlist.']);
+		}
 	}
 }
